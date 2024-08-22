@@ -1,0 +1,40 @@
+Para el MINOR Copiar el siguiente metodo en una rama Feature, luego esa rama feature se mezcla con develop, y la rama develop se mezcla con master/main y realizamos un git tag a la version 1.1.0
+
+@app.route('/v1/delete_element', methods=['DELETE'])
+def delete_element():
+    data = request.get_json()
+    if 'index' in data:
+        index = int(data['index'])
+        if 0 <= index < len(elements-2):
+            removed_element = elements.pop(index)
+            return jsonify({'message': 'Elemento eliminado exitosamente!', 'removed_element': removed_element}), 200
+        else:
+            return jsonify({'error': 'Índice fuera de rango'}), 400
+    else:
+        return jsonify({'error': 'Índice no proporcionado'}), 400
+
+Para el PATCH se debe corregir el metodo a partir de un HOTFIX, mezclamos y modificarlo de la siguiente manera, hacer git tag a version 1.1.1
+
+if 0 <= index < len(elements-2): -> if 0 <= index < len(elements)
+
+Para el MAJOR deshabilitamos(hacemos el mismo procedimiento que en el MINOR) el metodo de obtener todos los elementos y solo dejamos que pueda consultarse un unico elemento pasado por URL
+
+@app.route('/v1/get_element', methods=['GET'])
+def get_element():
+    index = request.args.get('index', type=int)
+    if index is not None:
+        if 0 <= index < len(elements):
+            return jsonify({'element': elements[index]}), 200
+        else:
+            return jsonify({'error': 'Índice fuera de rango'}), 400
+    else:
+        return jsonify({'error': 'Índice no proporcionado'}), 400
+
+Borramos el metodo que obtiene todos los elementos y hacemos un git tag a la version 2.0.0
+
+PENDIENTES
+
+1) Regla para no escribir directamente en la master/main
+2) Permisos para solo mezclar cuando haya un aprobador.
+
+
