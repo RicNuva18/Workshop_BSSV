@@ -10,7 +10,7 @@ def delete_element():
     data = request.get_json()
     if 'index' in data:
         index = int(data['index'])
-        if 0 <= index < len(elements-2):
+        if 0 <= index < len(elements):
             removed_element = elements.pop(index)
             return jsonify({'message': 'Elemento eliminado exitosamente!', 'removed_element': removed_element}), 200
         else:
